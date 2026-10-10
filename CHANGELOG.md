@@ -8,9 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
-- The definition of zero-trust AI operations.
-- Five rules, each mapped to a tenet of NIST SP 800-207 section 2.1 (tenets 6, 3, 5, 2 and 7).
-- A 25-question checklist, in eight groups, to ask any AI operations tool before it gets write access to production.
+- The specification: scope, terminology, threat model and security goals, and five rules expressed as 30 requirements (R1.1 to R5.5), each rule with verification steps.
+- A conformance guide with a self-assessment statement template.
+- A crosswalk to NIST SP 800-207, the OWASP Top 10 for LLM Applications 2026, the Agents Rule of Two, the lethal trifecta and the CSA Agentic Trust Framework.
+- A 25-question checklist for buyers, each question mapped to the requirements it tests.
 - A citation file, issue templates and contribution guidelines.
 
 [1.0.0]: https://github.com/gaezla/zero-trust-ai-operations/releases/tag/v1.0.0

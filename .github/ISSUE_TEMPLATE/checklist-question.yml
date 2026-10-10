@@ -26,8 +26,10 @@ body:
       description: The question, what a good answer sounds like, and the red flag.
       value: |
         **Question:**
+        **Requirements it tests:** (for example R3.3)
         **Good answer:**
         **Red flag:**
+        **Ask them to show:** (optional)
     validations:
       required: true
   - type: textarea

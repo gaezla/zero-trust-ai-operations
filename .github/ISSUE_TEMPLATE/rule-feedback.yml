@@ -1,5 +1,5 @@
-name: Feedback on a rule
-description: A rule is wrong, unclear, or missing something.
+name: Feedback on a rule or requirement
+description: A rule or requirement is wrong, unclear, untestable or missing something.
 title: "[Rule] "
 labels: ["rule"]
 body:
@@ -12,14 +12,21 @@ body:
     attributes:
       label: Which rule?
       options:
-        - "1. Verify every request the AI makes"
-        - "2. Give the AI no standing access and no keys"
-        - "3. Assume the AI will be wrong, or talked into something"
-        - "4. Segment what the AI can reach"
-        - "5. Record every decision"
-        - "A rule that is missing"
+        - "1. Act only as the person who asked"
+        - "2. Never give the AI a credential"
+        - "3. Give the AI no network of its own"
+        - "4. Let only a person approve a change, exactly as it will run"
+        - "5. Record every decision where the AI cannot change it"
+        - "Threat model, terminology or scope"
+        - "A rule or requirement that is missing"
     validations:
       required: true
+  - type: input
+    id: requirement
+    attributes:
+      label: Requirement ID
+      description: For example R4.2. Leave empty if the feedback is about a whole rule.
+      placeholder: "R4.2"
   - type: textarea
     id: change
     attributes:
