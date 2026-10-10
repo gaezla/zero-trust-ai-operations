@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use or reference this specification, please cite it as below."
+title: "Zero-trust AI operations: definition and five rules"
+abstract: >-
+  Zero-trust AI operations is zero trust applied to the AI that runs your IT
+  operations. The AI gets real reach: it reads each system through its
+  vendor's own API and drafts the fix. It gets no standing trust: its code has
+  no network, it holds no credentials, it cannot approve, and every change
+  waits for a person and is recorded. Five rules map the definition to the
+  tenets of NIST SP 800-207, with a 25-question checklist.
+authors:
+  - family-names: Tipsmark
+    given-names: Rune
+    affiliation: GAEZLA
+version: 1.0.0
+date-released: 2026-10-10
+url: "https://gaezla.com/zero-trust-ai-operations/"
+repository-code: "https://github.com/gaezla/zero-trust-ai-operations"
+license: CC-BY-4.0
+keywords:
+  - zero-trust AI operations
+  - zero trust
+  - AI security
+  - AI agents
+  - IT operations
+  - NIST SP 800-207
+  - AI governance

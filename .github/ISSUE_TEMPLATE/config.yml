@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/gaezla/zero-trust-ai-operations/discussions
+    about: Open-ended questions and ideas that are not ready to be a change yet.
+  - name: The definition, with articles
+    url: https://gaezla.com/zero-trust-ai-operations/
+    about: The definition and the five rules, with articles that go deeper.
+  - name: Report a vulnerability in GAEZLA
+    url: https://gaezla.com/legal/security
+    about: Please report security issues privately, never in a public issue.

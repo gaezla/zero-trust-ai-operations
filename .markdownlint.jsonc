@@ -1,0 +1,8 @@
+{
+  // Prose files: long lines are fine, and the README banner and footer use HTML.
+  "MD013": false,
+  "MD033": { "allowed_elements": ["p", "picture", "source", "img", "a", "br", "sub"] },
+  "MD041": false,
+  // CHECKLIST.md numbers its questions 1-25 across its groups, so each group's list starts where the last ended.
+  "MD029": false
+}

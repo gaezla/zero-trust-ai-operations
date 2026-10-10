@@ -1,0 +1,46 @@
+name: Checklist question
+description: Propose, improve or correct a question in the checklist.
+title: "[Checklist] "
+labels: ["checklist"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change?
+      options:
+        - Propose a new question
+        - Improve an existing question
+        - Report an error in a question
+    validations:
+      required: true
+  - type: input
+    id: number
+    attributes:
+      label: Question number
+      description: Leave empty for a new question.
+      placeholder: "12"
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed text
+      description: The question, what a good answer sounds like, and the red flag.
+      value: |
+        **Question:**
+        **Good answer:**
+        **Red flag:**
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: What a buyer misses without this change, with a source if you have one.
+    validations:
+      required: true
+  - type: checkboxes
+    id: neutral
+    attributes:
+      label: Vendor-neutral
+      options:
+        - label: This proposal names no product and promotes none.
+          required: true

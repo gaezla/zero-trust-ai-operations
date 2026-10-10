@@ -1,0 +1,43 @@
+name: Feedback on a rule
+description: A rule is wrong, unclear, or missing something.
+title: "[Rule] "
+labels: ["rule"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping sharpen the rules. Evidence a reader can check (a standard, a documented incident, a published design) makes a proposal mergeable.
+  - type: dropdown
+    id: rule
+    attributes:
+      label: Which rule?
+      options:
+        - "1. Verify every request the AI makes"
+        - "2. Give the AI no standing access and no keys"
+        - "3. Assume the AI will be wrong, or talked into something"
+        - "4. Segment what the AI can reach"
+        - "5. Record every decision"
+        - "A rule that is missing"
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: What should change?
+      description: Quote the current wording and propose the new wording.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Links to the standard, incident, design or other source that supports the change.
+    validations:
+      required: true
+  - type: checkboxes
+    id: neutral
+    attributes:
+      label: Vendor-neutral
+      options:
+        - label: This proposal names no product and promotes none.
+          required: true
