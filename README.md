@@ -21,13 +21,13 @@ This repository is an open, vendor-neutral specification for it: five rules, the
 
 ## The five rules
 
-1. **Act only as the person who asked.** Every operation is authorised for the person who asked, by the platform, at the moment it happens. The AI has no authority of its own, and what it reads stays with the people entitled to it.
-2. **Never give the AI a credential.** The platform attaches credentials to each operation outside the model. Nothing the AI can read contains a key, not even the systems it reads.
-3. **Give the AI no network of its own.** The AI reaches your systems only through the platform. Its code has no network, nothing in its answers is fetched automatically, and nothing it reads can leave except to the providers you chose and through channels people control.
-4. **Let only a person approve a change, exactly as it will run.** The AI can propose any change. Only a person can approve one, confirmed in a way software cannot fake, and what runs is exactly what they saw, against the same targets, before the approval expires.
-5. **Record every decision where the AI cannot change it.** What the AI read, what it proposed, who approved it, how, and what ran, kept out of the AI's reach.
+1. **Act only as the person who asked.** Every request is authorised for the person who asked, by the platform, when it happens. The AI has no authority of its own, and what it reads stays with the people entitled to it.
+2. **Never give the AI a credential.** The platform attaches credentials to each request outside the model, and removes them from what the AI reads wherever it can recognise them.
+3. **Give the AI no network of its own.** The AI reaches your systems only through the platform. Its code has no network, nothing in its answers is fetched automatically, and what it reads can leave only to the third parties you are told about, to destinations whose readers may see it, or through changes people approve.
+4. **Let only a person approve a change, exactly as it will run.** A person with the authority to make the change approves it, in a way that software acting for them cannot complete without them. What runs is the content they saw, against the same targets, once, before the approval expires. Unattended change exists only within automations and classes that people define and bound in advance.
+5. **Record every decision where the AI cannot change it.** What the AI was asked, what it read, what it proposed, who approved it, how, and what ran, kept out of the AI's reach.
 
-The [specification](SPECIFICATION.md) turns each rule into requirements with MUST and SHOULD, and ends each rule with tests anyone can run.
+The [specification](SPECIFICATION.md) turns each rule into requirements with MUST and SHOULD, ends each rule with tests anyone can run, and says plainly what a conforming system still does not prevent.
 
 ## Why this exists
 
@@ -35,9 +35,9 @@ AI that runs IT operations has to read the things operations teams read: logs, a
 
 Any of that content can carry instructions, and the model may follow them. This is prompt injection, and it is not solved. The OWASP Top 10 for LLM Applications 2026 states that "no reliable prevention mechanism exists today" and concludes: "Defense is therefore architectural rather than interceptive." Meta calls it "a fundamental, unsolved weakness in all LLMs".
 
-So the honest design assumption is that the AI can be steered at any moment of any session. What a steered AI can then do depends entirely on the system around the model. NIST saw this coming. In 2020, section 5.7 of NIST SP 800-207 warned that "an attacker will be able to induce or coerce an NPE [non-person entity] to perform some task that the attacker is not privileged to perform", and called the authentication of such agents "an open issue".
+So the honest design assumption is that the AI can be steered at any moment of any session. What a steered AI can then do depends entirely on the system around the model. NIST anticipated the risk. In 2020, writing about software agents used to administer a zero trust architecture, section 5.7 of NIST SP 800-207 warned that "an attacker will be able to induce or coerce an NPE [non-person entity] to perform some task that the attacker is not privileged to perform", and called the authentication of such agents "an open issue".
 
-Zero-trust AI operations answers it for the AI that operates infrastructure. Under the five rules, a steered AI cannot act beyond the person who asked, cannot obtain a credential, cannot send what it read anywhere but the providers you chose, cannot change a system without a person approving that exact change, and cannot erase the record. The specification also says plainly what the rules do not prevent, and requires every conformance statement to address it.
+Zero-trust AI operations addresses that concern for the AI that operates infrastructure. The five rules are designed so that a steered AI cannot act beyond the person who asked, cannot obtain a credential, cannot send what it read beyond the channels people control, and cannot change a system except through a person's approval of the exact change or within limits people set in advance, nor erase the record. [Section 6](SPECIFICATION.md#6-residual-risk) of the specification states what remains, and every conformance statement must assess it.
 
 ## How a change flows
 
@@ -52,7 +52,7 @@ flowchart LR
     read -. "blocked" .-x out["The internet,<br/>your private network"]
 ```
 
-The AI reads inside the asking person's permissions, through the platform. A change waits as a proposal until a person approves the exact content that will run, and confirms it with a passkey or a separate device. The platform checks the content and targets again, runs it, attaching credentials the AI never sees, and records who asked, who approved, how, and what ran. The AI has no other way in or out.
+The AI reads inside the asking person's permissions, through the platform. A change waits as a proposal until a person with the authority to make it approves the exact content, and confirms that specific proposal with a passkey or security key. The platform checks the content, the targets and the approver's permission again, runs the change once, with network limited to what the proposal declares and credentials the AI never sees, and records who asked, who approved, how, and what ran.
 
 ## Use it
 
@@ -67,37 +67,46 @@ The AI reads inside the asking person's permissions, through the platform. A cha
 - **Not model safety.** It does not cover hallucination, alignment, content filtering or training data. It assumes the model will misbehave and limits what that can cause.
 - **Not about securing AI apps in general.** Chatbots and retrieval systems have their own guidance. This is about the AI that operates infrastructure.
 - **Not a certification.** Conformance is self-assessed and published. Nobody, including the maintainers, certifies it.
-- **Not a product.** It names no vendor, and any team can implement it.
+- **Not a product.** It promotes no product, including the maintainer's, and any team can implement it.
 
 ## Questions
 
 **Isn't approving every change too slow?**
-Only changes wait; reads run without approval. Related proposals can be approved together with one confirmation. Work that should run unattended can be approved by a person in advance as a fixed automation, or as a class of change that people define and the platform, not the AI, applies (R4.8, R4.9). Keep proposals small and specific: OWASP notes that "approval fatigue degrades reviewer judgment at volume".
+Only changes wait; reads run without approval. Related proposals can be approved together with one confirmation, as long as each is shown and can be rejected on its own. Routine work can run unattended as an automation, or as a narrow class of change that people define, bound and time-limit (R4.10, R4.11). Keep proposals small and specific: OWASP (LLM01:2026, strategy 7) notes that "approval fatigue degrades reviewer judgment at volume".
 
 **Why a passkey for every approval? The person is already signed in.**
-A sign-in proves who opened the session, not who pressed the button. AI agents now work inside people's own browsers and AI clients, with their sessions. A passkey or a confirmation on a separate device is something that software cannot supply, so it is what makes "only a person approves" true (R4.6).
+A sign-in proves who opened the session, not who pressed the button. AI agents now work inside people's own browsers and AI clients, with their sessions. User verification bound to the specific proposal is something that software acting for the person cannot complete without them (R4.7). Where such software could also change what the person sees, confirming on a separate device that shows the proposal closes the remaining gap; the specification recommends it and lists the gap as a residual risk.
 
 **Our AI only reads. Does this apply?**
-Yes. Rules 1, 2, 3 and 5 protect what it reads. A read-only AI with access to your systems and to the internet is all three legs of Simon Willison's "lethal trifecta": private data, untrusted content and a way to send data out. Rule 3 exists for exactly this case.
+Yes. Rules 1, 2, 3 and 5 protect what it reads. A read-only AI with access to your systems and to the internet has all three legs of Simon Willison's "lethal trifecta": private data, untrusted content and a way to send data out. Rule 3 exists for exactly this case.
 
-**Can an AI earn the right to approve changes once it has a good record?**
-Not under this specification. Frameworks such as the Agentic Trust Framework let agents earn autonomy, which suits many agents. For changes to production infrastructure, one injected log line can steer a model with a perfect history, so a record earns it nothing. People decide in advance what may run unattended; the AI never does.
+**Can an AI earn the right to make changes without approval?**
+Not under this specification. Some frameworks, such as the Agentic Trust Framework, let people promote an agent to act without approval of each action once it has a good record. For changes to production infrastructure, one injected log line can steer a model with a perfect history, so a record earns it nothing. People decide in advance, and within limits, what may run unattended; the AI never does.
 
 **Isn't prompt-injection detection enough?**
 Detection lowers how often an attack works, but it cannot be relied on. OWASP, citing NIST and the UK's National Cyber Security Centre, concludes that no reliable prevention exists today. These rules limit the damage when detection fails, and no requirement can be met by a model's judgement, including a second model watching the first (R0.1).
 
 **What does conformance not protect against?**
-A person approving a harmful change they did not understand, a person acting on a wrong diagnosis, what the model provider sees, and a few others. [Section 6](SPECIFICATION.md#6-residual-risk) lists them, and every conformance statement must assess them.
+A person approving a harmful change they did not understand, a person acting on a wrong diagnosis, what the model and search providers see, a link a person chooses to open, and a few others. [Section 6](SPECIFICATION.md#6-residual-risk) lists them, and every conformance statement must assess them.
 
 **How does this relate to NIST SP 800-207?**
-It applies NIST's tenets to one kind of non-person entity. The AI is the subject; authorisation and the person's approval are the policy decision; the platform's credential handling is the policy administrator; the platform's interface is the enforcement point. [CROSSWALK.md](CROSSWALK.md) has the mapping, tenet by tenet.
+It applies NIST's tenets to one kind of non-person entity. The AI is the subject; authorisation is the policy decision, to which this specification adds a person's approval for changes; the platform's credential handling is the policy administrator; the platform's interface is the enforcement point. [CROSSWALK.md](CROSSWALK.md) has the mapping, tenet by tenet, including where the coverage is partial.
 
 **How does it relate to the OWASP Top 10 for Agentic Applications?**
 That list names the risks of agents in general. This specification turns the ones that matter for infrastructure into requirements a buyer can test. [CROSSWALK.md](CROSSWALK.md) maps all ten.
 
 ## Status and versioning
 
-This is version 1.0.0-draft.1, a draft for public review. Requirements and identifiers may still change until version 1.0.0. From 1.0.0 the specification follows semantic versioning: a **patch** release clarifies wording without changing any requirement; a **minor** release adds SHOULD or MAY requirements or verification steps; a **major** release adds or changes a MUST. Requirement identifiers never change meaning within a major version. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+This is version 1.0.0-draft.1, a draft for public review. Requirements and identifiers may still change until version 1.0.0. From 1.0.0 the specification follows semantic versioning, as [CONTRIBUTING.md](CONTRIBUTING.md#versioning) describes: a **major** release adds, removes or changes a MUST, or a verification step that a conforming system could fail; a **minor** release adds or removes SHOULD or MAY requirements, informative text or checklist questions; a **patch** release changes wording without changing any requirement. Requirement identifiers never change meaning within a major version. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
+## Governance
+
+The specification is maintained by GAEZLA, which builds AI operations software and so has an interest in this category. To keep it neutral:
+
+- changes are proposed and decided in public issues, with the evidence for each;
+- the text promotes no product, including GAEZLA's;
+- GAEZLA's own products get no exception and are assessed against it like any other;
+- anyone may fork and republish it under CC BY 4.0.
 
 ## How to cite
 
