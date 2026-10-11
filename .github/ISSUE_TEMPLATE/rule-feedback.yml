@@ -17,7 +17,9 @@ body:
         - "3. Give the AI no network of its own"
         - "4. Let only a person approve a change, exactly as it will run"
         - "5. Record every decision where the AI cannot change it"
+        - "General requirements (R0)"
         - "Threat model, terminology or scope"
+        - "Residual risk"
         - "A rule or requirement that is missing"
     validations:
       required: true
@@ -25,8 +27,8 @@ body:
     id: requirement
     attributes:
       label: Requirement ID
-      description: For example R4.2. Leave empty if the feedback is about a whole rule.
-      placeholder: "R4.2"
+      description: For example R4.3. Leave empty if the feedback is about a whole rule.
+      placeholder: "R4.3"
   - type: textarea
     id: change
     attributes:

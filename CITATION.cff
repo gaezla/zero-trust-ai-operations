@@ -8,14 +8,16 @@ abstract: >-
   act only as the person who asked, never give the AI a credential, give it no
   network of its own, let only a person approve a change exactly as it will
   run, and record every decision where the AI cannot change it. It includes a
-  threat model, a conformance guide, a crosswalk to NIST SP 800-207 and the
-  OWASP Top 10 for LLM Applications 2026, and a checklist for buyers.
+  threat model, the residual risk a conforming system still carries, a
+  conformance guide, a crosswalk to NIST SP 800-207, the OWASP Top 10 for LLM
+  and for Agentic Applications 2026 and the Model Context Protocol, and a
+  checklist for buyers. This version is a draft for public review.
 authors:
   - family-names: Tipsmark
     given-names: Rune
     affiliation: GAEZLA
-version: 1.0.0
-date-released: 2026-10-10
+version: 1.0.0-draft.1
+date-released: 2026-10-11
 url: "https://gaezla.com/zero-trust-ai-operations/"
 repository-code: "https://github.com/gaezla/zero-trust-ai-operations"
 license: CC-BY-4.0
@@ -27,5 +29,7 @@ keywords:
   - IT operations
   - NIST SP 800-207
   - prompt injection
+  - AI agents security
+  - Model Context Protocol
   - OWASP
   - AI governance

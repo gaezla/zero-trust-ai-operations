@@ -26,13 +26,18 @@ A proposal is strongest when it points at something a reader can check:
 
 - **Vendor-neutral.** The specification, the crosswalk and the checklist name no product, including the maintainer's. Pull requests that promote a product are closed.
 - **Testable.** Every requirement must be checkable from outside, and every rule keeps its verification steps. Say what a person can verify, not what a tool claims.
-- **Quote sources exactly.** Quotations from NIST, OWASP and other sources are verbatim, with the edition named.
+- **Quote sources exactly.** Quotations from NIST, OWASP, the MCP specification and other sources are verbatim, with the edition named.
+- **The platform, not the model.** No requirement may be met by instructing the AI or by a model's judgement (R0.1). Proposals that rely on either are declined.
 - **Small, reviewable changes.** One requirement or one question per pull request.
 - **British spelling**, matching the existing text.
 
+## Public review
+
+Versions marked as drafts, such as 1.0.0-draft.1, are open for public review. During review, requirements and identifiers may change. Every issue raised against a draft gets a public answer, accepted, changed or declined with a reason, before the next release.
+
 ## Versioning
 
-The specification uses [semantic versioning](https://semver.org/):
+From version 1.0.0 the specification uses [semantic versioning](https://semver.org/):
 
 - **Major:** a MUST requirement is added, removed or changes meaning, or a rule is added or removed.
 - **Minor:** a SHOULD or MAY requirement, a verification step or a checklist question is added or removed.
