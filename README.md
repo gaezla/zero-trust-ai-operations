@@ -21,13 +21,13 @@ This repository is an open, vendor-neutral specification for it: five rules, the
 
 ## The five rules
 
-1. **Act only as the person who asked.** Every request is authorised for the person who asked, by the platform, when it happens. The AI has no authority of its own, and what it reads stays with the people entitled to it.
-2. **Never give the AI a credential.** The platform attaches credentials to each request outside the model, and removes them from what the AI reads wherever it can recognise them.
-3. **Give the AI no network of its own.** The AI reaches your systems only through the platform. Its code has no network, nothing in its answers is fetched automatically, and what it reads can leave only to the third parties you are told about, to destinations whose readers may see it, or through changes people approve.
-4. **Let only a person approve a change, exactly as it will run.** A person with the authority to make the change approves it, in a way that software acting for them cannot complete without them. What runs is the content they saw, against the same targets, once, before the approval expires. Unattended change exists only within automations and classes that people define and bound in advance.
+1. **Act only as the person who asked.** Every request is authorised for the person who asked, by the platform, when it happens. The AI has no authority of its own, and what it reads, and anything derived from it, stays with the people entitled to it.
+2. **Never give the AI a credential.** The platform attaches credentials to each request outside the model, and removes from what the AI reads every credential it holds and every one it can recognise.
+3. **Give the AI no network of its own.** The AI reaches your systems only through the platform. Its code has no network, and nothing in its answers is fetched or run automatically. The ways out for what it reads are the third parties you are told about, destinations whose readers may see it, and changes people approve; the specification lists the side channels that remain.
+4. **Let only a person approve a change, exactly as it will run.** A person with the authority to make the change approves it, with user verification bound to that proposal. What runs is the content they saw, against the same targets, once, before the approval expires. Unattended change exists only within automations and classes that people define and bound in advance.
 5. **Record every decision where the AI cannot change it.** What the AI was asked, what it read, what it proposed, who approved it, how, and what ran, kept out of the AI's reach.
 
-The [specification](SPECIFICATION.md) turns each rule into requirements with MUST and SHOULD, ends each rule with tests anyone can run, and says plainly what a conforming system still does not prevent.
+The [specification](SPECIFICATION.md) turns each rule into requirements with MUST and SHOULD, ends each rule with tests a buyer can run or ask the vendor to show, and says plainly what a conforming system still does not prevent.
 
 ## Why this exists
 
@@ -37,7 +37,7 @@ Any of that content can carry instructions, and the model may follow them. This 
 
 So the honest design assumption is that the AI can be steered at any moment of any session. What a steered AI can then do depends entirely on the system around the model. NIST anticipated the risk. In 2020, writing about software agents used to administer a zero trust architecture, section 5.7 of NIST SP 800-207 warned that "an attacker will be able to induce or coerce an NPE [non-person entity] to perform some task that the attacker is not privileged to perform", and called the authentication of such agents "an open issue".
 
-Zero-trust AI operations addresses that concern for the AI that operates infrastructure. The five rules are designed so that a steered AI cannot act beyond the person who asked, cannot obtain a credential, cannot send what it read beyond the channels people control, and cannot change a system except through a person's approval of the exact change or within limits people set in advance, nor erase the record. [Section 6](SPECIFICATION.md#6-residual-risk) of the specification states what remains, and every conformance statement must assess it.
+Zero-trust AI operations addresses that concern for the AI that operates infrastructure. The five rules are designed so that a steered AI cannot act beyond the authority of the people involved, cannot obtain a credential the platform holds or can recognise, cannot send what it read beyond the channels people control, cannot change a system except through a person's approval of the exact change or within limits people set in advance, and cannot erase the record. [Section 6](SPECIFICATION.md#6-residual-risk) of the specification states what remains, and every conformance statement must assess it.
 
 ## How a change flows
 
@@ -49,10 +49,10 @@ flowchart LR
     gate -- "no" --> stop["Nothing changes"]
     gate -- "yes" --> run["The platform runs<br/>exactly that change"]
     run --> record["Decision<br/>recorded"]
-    read -. "blocked" .-x out["The internet,<br/>your private network"]
+    read -. "no direct route" .-x out["The internet,<br/>your private network"]
 ```
 
-The AI reads inside the asking person's permissions, through the platform. A change waits as a proposal until a person with the authority to make it approves the exact content, and confirms that specific proposal with a passkey or security key. The platform checks the content, the targets and the approver's permission again, runs the change once, with network limited to what the proposal declares and credentials the AI never sees, and records who asked, who approved, how, and what ran.
+The AI reads inside the asking person's permissions, through the platform. A change waits as a proposal until a person with the authority to make it approves the exact content, and confirms that specific proposal with user verification, such as a passkey. The platform checks the content, the targets and the approver's permission again, runs the change once, and records who asked, who approved, how, and what ran. Code the platform runs for the change can reach only what the proposal declares, and credentials are attached by the platform, never handed to the model.
 
 ## Use it
 
@@ -75,7 +75,7 @@ The AI reads inside the asking person's permissions, through the platform. A cha
 Only changes wait; reads run without approval. Related proposals can be approved together with one confirmation, as long as each is shown and can be rejected on its own. Routine work can run unattended as an automation, or as a narrow class of change that people define, bound and time-limit (R4.10, R4.11). Keep proposals small and specific: OWASP (LLM01:2026, strategy 7) notes that "approval fatigue degrades reviewer judgment at volume".
 
 **Why a passkey for every approval? The person is already signed in.**
-A sign-in proves who opened the session, not who pressed the button. AI agents now work inside people's own browsers and AI clients, with their sessions. User verification bound to the specific proposal is something that software acting for the person cannot complete without them (R4.7). Where such software could also change what the person sees, confirming on a separate device that shows the proposal closes the remaining gap; the specification recommends it and lists the gap as a residual risk.
+A sign-in proves who opened the session, not who pressed the button. AI agents now work inside people's own browsers and AI clients, with their sessions. User verification bound to the specific proposal and used once cannot be completed by such software without the person's registered authenticator and the person's own gesture (R4.7). Where such software could also change what the person sees, or where an authenticator stays unlocked in the same session, confirming on a separate device that shows the proposal closes the remaining gap; the specification recommends it and lists the gap as a residual risk.
 
 **Our AI only reads. Does this apply?**
 Yes. Rules 1, 2, 3 and 5 protect what it reads. A read-only AI with access to your systems and to the internet has all three legs of Simon Willison's "lethal trifecta": private data, untrusted content and a way to send data out. Rule 3 exists for exactly this case.
@@ -104,8 +104,9 @@ This is version 1.0.0-draft.1, a draft for public review. Requirements and ident
 The specification is maintained by GAEZLA, which builds AI operations software and so has an interest in this category. To keep it neutral:
 
 - changes are proposed and decided in public issues, with the evidence for each;
+- the editors named in [CITATION.cff](CITATION.cff) decide, and record each decision and its reason in the issue;
 - the text promotes no product, including GAEZLA's;
-- GAEZLA's own products get no exception and are assessed against it like any other;
+- GAEZLA's own products get no exception from it;
 - anyone may fork and republish it under CC BY 4.0.
 
 ## How to cite

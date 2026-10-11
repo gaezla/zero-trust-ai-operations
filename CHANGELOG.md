@@ -10,7 +10,7 @@ First draft for public review.
 
 ### Added
 
-- The specification: scope; conventions that define the conformance target, what is normative, and a verification method that tests the system rather than the model; terminology; a threat model with three adversaries and seven design goals traced to requirements; three general requirements and five rules expressed as testable requirements (R0.1 to R5.10), each with verification steps; the residual risk a conforming system still carries; and the relation to change management.
+- The specification: scope; conventions that define the conformance target, what is normative, and a verification method that tests the system rather than the model; terminology; a threat model with three adversaries and seven design goals traced to requirements; three general requirements and five rules expressed as testable requirements (R0.1 to R5.9), each with verification steps; the residual risk a conforming system still carries; and the relation to change management.
 - A conformance guide, normative for anyone who claims conformance, with a statement template, documented values, a residual-risk assessment, and rules for configurable systems, test environments, drafts and corrections.
 - A crosswalk to NIST SP 800-207, the OWASP Top 10 for LLM Applications 2026, the OWASP Top 10 for Agentic Applications 2026, the Model Context Protocol specification 2026-07-28, the Agents Rule of Two, the lethal trifecta, the Agentic Trust Framework and the OWASP Agent Control Standard, marking where coverage is partial.
 - A 25-question checklist for buyers, each question mapped to the requirements it tests.
