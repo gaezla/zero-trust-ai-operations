@@ -10,7 +10,7 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **1. Whose permissions does the AI use on each system, and what enforces them?** `R1.1` `R1.2` `R1.3`
 
-- **Good answer:** The requesting person's, checked by the product on every request, for that session only, down to the namespace, mailbox or index, and never more than that person's own account on the system allows. A revoked permission takes effect within an hour at most.
+- **Good answer:** The requesting person's, checked by the product on every request, for that session only, down to the namespace, mailbox or index, and never more than that person's own account on the system allows. For systems with neither per-person accounts nor a way to ask what a person may do, the vendor says that granularity is set by its own documented mapping. A revoked permission takes effect within an hour at most.
 - **Red flag:** A broad service account with no per-person check, or "the agent knows what it is allowed to do".
 - **Ask them to show:** As a user without access to a system, have the AI read it. The product refuses.
 
@@ -26,31 +26,31 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **4. Who else can see what the AI read on my behalf?** `R1.10` `R1.11`
 
-- **Good answer:** Only people with access to what it came from, down to the namespace, mailbox or index, including anything the AI later derives from it through memory or summaries, unless someone with that access shares it deliberately. Other customers never can, including other customers of the same service provider. In a shared channel, the AI works only with what everyone there may see.
+- **Good answer:** Only people with access to what it came from, down to the namespace, mailbox or index where the system allows, including anything the AI later derives from it through memory or summaries, unless someone with that access shares it deliberately. Other customers never can, including other customers of the same service provider, unless the customer it came from has permitted it. In a shared channel, the AI works only with what everyone there may see.
 - **Red flag:** Memory, knowledge or search shared across users or customers.
 
-**5. Can you stop everything at once, and narrow what the AI can reach?** `R1.12` `R1.13` `R1.8` `R1.9`
+**5. Can you stop everything at once, or one person's work, and narrow what the AI can reach?** `R1.12` `R1.13` `R1.8` `R1.9`
 
-- **Good answer:** One action ends every session, withdraws pending proposals, stops running changes and suspends approved changes, automations and classes, within 60 seconds. Sessions end within 24 hours, requests are rate-limited, and you can restrict the AI to less than the requesting person's own access.
+- **Good answer:** One action ends every session, withdraws pending proposals, stops running changes and suspends approved changes, automations and classes: new requests are refused at once, and the rest completes within 60 seconds, apart from documented operations and steps named as having to finish safely. The same works for one person, for everyone acting for a service provider, and for one system or resource. Sessions end within 24 hours and when the person's account is disabled, requests are rate-limited, and you can restrict the AI to less than the requesting person's own access, down to resources.
 - **Red flag:** "We would redeploy", or sessions that never end.
 
 ## Rule 2. Never give the AI a credential
 
 **6. Can the model or its code ever see a credential the product uses, including the key for the model provider?** `R2.1` `R2.2` `R2.5`
 
-- **Good answer:** No. The product attaches credentials to each request, outside the model.
+- **Good answer:** No. The product attaches credentials to each request, outside the model, never places them where the AI can read, and replaces them if a system echoes them back.
 - **Red flag:** API keys in the agent's environment variables or configuration files.
 - **Ask them to show:** From the AI's execution environment, list the environment and files. No credential appears, apart from a session identity that is useless elsewhere.
 
 **7. What does the AI see when it reads a system that holds credentials, or resets one?** `R2.6` `R1.6`
 
-- **Good answer:** Credential values are replaced before they reach the AI: every credential the product itself holds, in common encodings; fields the system marks as secret; key material; and formats such as Kubernetes secrets, kubeconfig files, device configurations and infrastructure-as-code state. A reset is approved on its own, and the new value never reaches the AI. The vendor says plainly that credentials in free text are caught only on a best-effort basis.
+- **Good answer:** Credential values are replaced before they reach the AI: every credential the product itself holds, in common encodings; fields the system marks as secret; key material; authorization headers, tokens and password hashes; and, for each kind of system the product supports, a stated list of formats such as Kubernetes secrets, kubeconfig files, device configurations and infrastructure-as-code state. A reset is approved on its own, and the new value never reaches the AI. The vendor says plainly that credentials in free text are caught only on a best-effort basis.
 - **Red flag:** "The model knows not to repeat them."
 - **Ask them to show:** Read a Kubernetes secret and a network device configuration through the AI. The values are replaced.
 
 **8. How does an approved job get a credential it needs?** `R2.3`
 
-- **Good answer:** Preferably the product attaches it itself, so the job never holds it. Otherwise the proposal names the credential; the value is released only after approval, only to a job the product runs and fences, never to a script on a target, and the AI sees only whether it succeeded unless a person releases the output.
+- **Good answer:** Preferably the product makes the connection itself, so the job never holds a credential. Otherwise the proposal names the credential; the value is released only after approval, only to that job, preferably as a credential created for it and expiring when it ends; a script that runs on your host receives only such a single-use credential; and the AI learns only whether it succeeded unless a person releases the output.
 - **Red flag:** Credentials passed in plain text through the conversation.
 
 **9. What identity does an AI session use, and what happens if it is copied?** `R2.4`
@@ -70,13 +70,13 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 - **Good answer:** In an isolated environment with no network, and no DNS, apart from the product's own interface. Any browser it uses is run by the product, which keeps the cookies.
 - **Red flag:** A shell on a server with internet access.
-- **Ask them to show:** From the AI's environment, request `https://example.com` and look up a name in a domain you control. The request fails, and no lookup reaches your name servers.
+- **Ask them to show:** From the AI's environment, request an address of your choosing that is not allow-listed, and look up a name in a domain you control. The request fails, and no lookup reaches your name servers.
 
 **12. Can the AI browse the web in the same session in which it reads your systems?** `R3.5`
 
-- **Good answer:** Only in a way that what it read cannot steer: it queries a disclosed search or lookup service and opens only the results or sources you allow-list, or research happens in a separate session with no access to your systems, or a person approves each request. The vendor says the query itself still reaches that service.
+- **Good answer:** Only in a way that what it read cannot steer: it queries a disclosed search or lookup service that keeps queries to itself and opens only the results or sources you allow-list, or research happens in a separate session with no access to your systems, or a person approves each request. The vendor says the query itself still reaches that service.
 - **Red flag:** "Yes, it looks errors up online while it investigates", with any address it likes.
-- **Ask them to show:** Have the AI read a value from one of your systems, then fetch an address that contains it. It cannot, or a person must approve it.
+- **Ask them to show:** Have the AI read a value from one of your systems, then fetch an address that contains it on a site that is not allow-listed. It cannot, or a person must approve it.
 
 **13. Which channels can carry anything out, and can anything in the AI's answers load or run by itself?** `R3.3` `R3.4` `R3.8`
 
@@ -86,7 +86,7 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **14. Which third parties receive what the AI reads, and who chooses the account?** `R3.6`
 
-- **Good answer:** A complete list: model, embedding, search, filtering, telemetry, tracing, hosting and delivery providers, with account, region, retention and training use. The product, not the AI, chooses the account for every request, and you can use your own.
+- **Good answer:** A complete list: model, embedding, search, lookup, filtering, telemetry, tracing, hosting and delivery providers, with account, region, retention, training use, who else can see the content, and whether the account is shared with other customers. The product, not the AI, chooses the account for every request, and you can use your own.
 - **Red flag:** Only the model provider is named, or the AI could use a key it found in a document.
 
 ## Rule 4. Let only a person approve a change, exactly as it will run
@@ -99,46 +99,46 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **16. Is what runs exactly what was approved, including everything it downloads, and only once?** `R4.2` `R4.3` `R3.7`
 
-- **Good answer:** Yes. Approval binds to a digest of the exact content, including its timing and a bounded retry policy; packages and images are pinned, or captured by digest when the proposal is made; plans are checked again before applying; the approval covers one run; and code the product runs can reach only the destinations it declared. Parts that run on your hosts are flagged as having the host's network.
+- **Good answer:** Yes. Approval binds to a digest of the exact content, including its timing and a bounded retry policy; every package and image is pinned by digest, never by version or tag alone; plans are checked again before applying, and computing them is itself controlled; the approval covers one run; and code the product runs can reach only the destinations it declared, with any destination not checked against what the session read marked as such. Parts that run on your hosts are flagged as having the host's network.
 - **Red flag:** The approval covers a description, and the details are filled in afterwards, or a script pulls `latest` at run time.
 - **Ask them to show:** Alter a proposal after it has been approved. Execution refuses.
 
 **17. What happens if the target changes, or the approval sits unused for a week?** `R4.4` `R4.5`
 
-- **Good answer:** Targets are bound by identifiers that are not reused, or by a fingerprint of their state that the product computes, and are checked again at execution. Approvals expire within 30 days.
+- **Good answer:** Targets are bound by identifiers that are not reused, or by a fingerprint the product computes, and the state the change depends on is bound too; all of it is checked again at execution. Approvals, retries included, expire within 30 days.
 - **Red flag:** Targets by name only, and approvals that never expire.
 
 **18. Who can approve, and how do you know it was them and not software?** `R4.6` `R4.7`
 
-- **Good answer:** Only a person with permission to make the change, and with access to everything the session read, checked again when it runs. Every approval is confirmed with user verification, such as a passkey, bound to that specific proposal and used once; you can restrict which authenticators count; and adding an authenticator needs an existing one.
+- **Good answer:** Only a person who holds permission to make the change, directly or through your just-in-time process, and who has access to everything the session read or was deliberately given it, checked again when it runs. Every approval is confirmed with user verification, such as a passkey, bound to that specific proposal and used once; you can restrict which authenticators count; adding an authenticator needs an existing one, or a sign-in restricted to attested authenticators, or a documented out-of-band process; and disabling an account disables its authenticators.
 - **Red flag:** "They are signed in", an approve or deny push, an API key that can approve, or "anyone on the team can approve anything".
 - **Ask them to show:** Try to approve with a machine token, as a person without permission, and by driving a signed-in browser with an automation tool. All are refused.
 
 **19. What does the person approving actually see?** `R4.9` `R4.8`
 
-- **Good answer:** The exact content as plain text, with hidden characters made visible; the targets, the identity it runs as, the credentials and destinations it uses, and any part that runs on a host; timing, retries and any step that cannot be stopped; what else the session proposed and what it read; and evidence drawn from the systems themselves, with untrusted sources marked. Anything the AI wrote is marked as such. Several proposals approved together are each shown in full and can be rejected one by one.
+- **Good answer:** The exact content as plain text, with hidden characters made visible; the targets, the identity it runs as, the credentials and destinations it uses, and any part that runs on a host; timing, retries and any step the stop action lets finish; destinations not checked against what the session read; what else the session proposed and what it read; and evidence drawn from the systems themselves, with untrusted sources marked. Anything the AI wrote is marked as such. Several proposals approved together are each shown in full and can be rejected one by one.
 - **Red flag:** A summary the AI wrote, presented as the reason to approve.
 
-**20. Can the AI change its own schedules, classes, allow-lists, instructions or memory, and can a tool server change its tools?** `R4.10` `R4.11` `R4.12` `R4.14`
+**20. Can the AI change the product's configuration, its own instructions or memory, and can a tool server change its tools?** `R4.10` `R4.11` `R4.12` `R4.14`
 
-- **Good answer:** Only through proposals a person with that permission approves. What the AI writes to memory is marked as its own and never becomes instructions without approval, and updated tool definitions need approval too. Classes allow only listed operations and parameter values, never a free-form command.
+- **Good answer:** Configuration, including schedules, classes, allow-lists, account mappings and restrictions, changes only through proposals a person with that permission approves, and the AI cannot disable anything. Configuration kept in a repository takes effect only after such a person confirms the difference. What the AI writes to memory is marked as its own, is never shown as evidence and never becomes instructions without approval, and updated tool definitions need approval too. Classes allow only listed operations, parameter values and people-controlled attributes, never a free-form command.
 - **Red flag:** Yes, directly.
 
 **21. Can you require someone other than the requester, or two people, to approve some changes, and can you freeze changes?** `R4.13` `R4.15`
 
-- **Good answer:** Yes, for kinds of change you choose, including a change authority that does not itself hold admin rights, and freeze periods in which nothing runs.
+- **Good answer:** Yes, for kinds of change you choose, including a change authority that does not itself hold admin rights and with whom the requester shares the proposal, and freeze periods in which nothing runs.
 - **Red flag:** No way to separate the person who asked from the person who approves.
 
 ## Rule 5. Record every decision where the AI cannot change it
 
 **22. What is recorded?** `R5.1` `R5.2` `R5.3`
 
-- **Good answer:** Every instruction to the AI and every answer, with the model and version used and the instructions it was given. Every request it made or was refused, with its parameters. For every proposal, including rejected and expired ones: the exact content, the targets, the evidence, who decided, how they verified, what ran and the result.
+- **Good answer:** Every instruction to the AI and every answer, with the model and version used and the instructions it was given. Every request it made or was refused, with its parameters. For every proposal, including rejected, withdrawn and expired ones: the exact content, the targets, the evidence, who decided, how they verified, what ran and the result. Every configuration change, and who disabled what.
 - **Red flag:** A chat transcript, or nothing for reads.
 
 **23. Can the AI alter records, and how are they kept?** `R5.4` `R5.5` `R5.6` `R5.7` `R5.8` `R5.9`
 
-- **Good answer:** The AI cannot touch them. Text in them is shown as plain text everywhere, including exports. The vendor names how records are protected, they are kept for at least a year and are not dropped because of volume, and they reach your own logging or SIEM platform.
+- **Good answer:** The AI cannot touch them. Text in them is shown as plain text everywhere, including exports. The vendor names how records are protected, they are kept for at least a year unless law or a collective agreement requires less, they are not dropped because of volume, a person's own sessions are private to them by default, and they stream to your own logging or SIEM platform within a stated delay.
 - **Red flag:** "Immutable", with no mechanism behind the word.
 
 ## The vendor

@@ -33,7 +33,7 @@ A proposal is strongest when it points at something a reader can check:
 
 ## Public review
 
-Versions marked as drafts, such as 1.0.0-draft.1, are open for public review. During review, requirements and identifiers may change. Every issue raised against a draft gets a public answer, accepted, changed or declined with a reason, before the next release.
+Versions marked as drafts, such as 1.0.0-draft.1, are open for public review. During review, requirements and identifiers may change. Every issue raised against a draft gets a public answer, accepted, changed or declined with a reason, before version 1.0.0 is released.
 
 ## Versioning
 

@@ -18,6 +18,10 @@ A system conforms to a given version of zero-trust AI operations when its publis
 
 A requirement MUST NOT be marked **Met** without evidence from a verification step, or an equivalent test, run against the deployed system or an equivalent test environment. A design document alone is not enough. A system that meets some but not all MUST requirements does not conform; its statement SHOULD say which requirements it meets instead. An honest partial statement is worth more than a claim that is not.
 
+### Who issues a statement
+
+A vendor MAY issue a statement for a product in a named configuration, and an organisation MAY issue one for its deployment. Requirements that depend on facts of a deployment, such as allow-list entries (R3.3), trusted tool servers (R1.5), designated just-in-time processes and shortened retention (R5.6), are completed by the organisation for its deployment; a vendor's statement says how the product supports them.
+
 ### The conformance target
 
 The statement MUST name the conformance target as section 2 of the specification defines it: the platform, the agent runtime that sends context to the model and acts on its output, and every interface the platform provides for people to see the AI's output. A vendor whose component works with agent runtimes it does not provide MUST name the runtime and configuration it assessed.
@@ -75,7 +79,7 @@ Copy the table into your statement and fill in every row. Status is one of:
 - **Met**, with evidence;
 - **Not met**;
 - **Not used**, for MAY provisions the system does not use;
-- **Not applicable**, only where the condition the requirement depends on cannot arise in the named configuration, with evidence that the capability is absent. For example, R4.10 is not applicable to a system that offers no automations.
+- **Not applicable**, only where the condition the requirement depends on cannot arise in the named configuration, with evidence that the capability is absent. For example, R3.5 is not applicable to a system that offers no public retrieval.
 
 Requirements with both a MUST and a SHOULD part have a row for each.
 
@@ -83,88 +87,95 @@ Requirements with both a MUST and a SHOULD part have a row for each.
 | --- | --- | --- | --- | --- |
 | R0.1 | MUST NOT | No requirement met by instructing the AI or by a model's judgement | | |
 | R0.2 | MUST NOT | Nothing starts when a check it depends on, or recording, cannot complete | | |
-| R0.3 | MUST | Settings that leave conformance documented, out of the AI's reach, shown when in effect | | |
-| R1.1 | MUST | Every read authorised against current permissions, never above the mapped account; revocation within one hour | | |
+| R0.3 | MUST | Settings that leave conformance documented, changed only by approved proposal, shown when in effect | | |
+| R1.1 | MUST | Every request other than a change authorised against current permissions, never above the mapped account; revocation within one hour | | |
 | R1.2 | MUST NOT | Authorisation does not depend on assertions by the AI | | |
-| R1.3 | MUST | Access never exceeds the requesting person's and ends with the session; changes within the approver's authority | | |
+| R1.3 | MUST | Permissions never exceed the requesting person's, end with the session and with the person's account; changes within the approver's authority | | |
 | R1.4 | MUST | Operations not offered are unavailable, not merely forbidden by instruction | | |
 | R1.5 | MUST | Every request classified by deterministic rules; unclassified or free-form means change | | |
-| R1.6 | MUST | Credential and factor creation or reset approved individually; values never reach the AI | | |
-| R1.7 | MUST | Unattended sessions have a requesting person, a stated scope, current permissions, and stop when the person leaves | | |
+| R1.5 (SHOULD) | SHOULD | Read-only credentials for reads | | |
+| R1.6 | MUST | People's credential and factor creation or reset approved individually; values never reach the AI | | |
+| R1.7 | MUST | Unattended sessions have a requesting person, a stated scope, current permissions, and stop when the account is disabled | | |
 | R1.7 (SHOULD) | SHOULD | Alert when a trigger stops; transfer of triggers | | |
-| R1.8 | MUST | The organisation can restrict the AI below the requesting person's permissions | | |
+| R1.8 | MUST | The organisation can restrict the AI below the requesting person's permissions, down to resources | | |
 | R1.8 (SHOULD) | SHOULD | The requesting person can restrict it too | | |
 | R1.9 | SHOULD | Rate and volume of requests limited | | |
-| R1.10 | MUST | Information reaches only people with access to it, unless deliberately shared; shared sessions use common permissions | | |
+| R1.10 | MUST | Information reaches only people with access to it, unless deliberately shared; cross-organisation sharing permitted by the source; shared sessions use common permissions | | |
 | R1.11 | MUST | Organisations isolated; content not sent to third parties on terms that allow training for others | | |
-| R1.12 | MUST | One action, and separate actions, stop sessions, proposals, changes, automations and classes within 60 seconds | | |
+| R1.12 | MUST | Stop actions for everyone, per person, per provider and per operation, system or resource; new requests refused at once, actions complete within 60 seconds, except documented operations and named safe steps | | |
 | R1.13 | MUST | Sessions end within 24 hours or a shorter set maximum | | |
-| R2.1 | MUST NOT | No managed-system credential anywhere the AI can read | | |
-| R2.2 | MUST | The platform attaches credentials, after authorising each request | | |
-| R2.3 | MUST | Credentials referenced by name, released after approval to the executor only; only success or failure returned | | |
-| R2.3 (SHOULD) | SHOULD | The platform attaches credentials to changes itself | | |
+| R2.1 | MUST NOT / MUST | No credential the platform uses placed where the AI can read; echoed credentials replaced | | |
+| R2.2 | MUST | The platform attaches credentials to the requests it makes, after authorising each | | |
+| R2.3 | MUST | Credentials referenced by name, released after approval to the executor only; only success or failure reaches the AI | | |
+| R2.3 (SHOULD) | SHOULD | The platform makes a change's connections itself; released credentials single-use, or rotated afterwards | | |
 | R2.4 | MUST | Session identity bound, accepted only by the platform, never forwarded, ends with the session, unusable if copied | | |
 | R2.4 (SHOULD) | SHOULD | Session identity sender-constrained even when unreadable | | |
 | R2.5 | MUST NOT | The AI's runtime credentials not readable by its tools or code | | |
-| R2.6 | MUST | Credential values replaced: platform-held values and encodings, marked fields, key material, listed formats, created credentials | | |
+| R2.6 | MUST | Credential values replaced: platform-held values in listed encodings, marked fields, key material, headers, tokens, hashes, listed formats per kind of system, created credentials | | |
 | R2.6 (SHOULD) | SHOULD | Credential values detected and replaced in other data | | |
 | R3.1 | MUST | The platform is the only route to managed systems; no access to the organisation's networks | | |
 | R3.2 | MUST | The AI's code and browser sessions have no network, including DNS, beyond the platform | | |
 | R3.3 | MUST | Every external channel removed, allow-listed with stated audience and checked, or approved per message | | |
-| R3.4 | MUST | No automatic fetch of addresses in the AI's output; links shown safely; delivery defanged | | |
-| R3.5 | MUST | Information from managed systems cannot determine public retrieval beyond a query to a disclosed service and a choice among permitted results | | |
-| R3.6 | MUST | Every third party documented; accounts and endpoints chosen by the platform | | |
+| R3.4 | MUST | No automatic fetch of addresses in the AI's output; links shown safely; delivery defanged; notifications carry no session content | | |
+| R3.5 | MUST | Information from managed systems cannot determine public retrieval beyond a query to a disclosed, non-sharing service and a choice among permitted results; no AI-chosen host names | | |
+| R3.6 | MUST | Every third party documented, including onward disclosure; accounts and endpoints chosen by the platform | | |
 | R3.6 (SHOULD) | SHOULD | Organisation chooses third parties and can use its own accounts | | |
-| R3.7 | MUST | Platform-run change code limited to targets and declared destinations; no credential to code on targets | | |
+| R3.7 | MUST | Platform-run change code limited to targets and declared destinations; unchecked destinations marked; only single-use credentials to code on targets | | |
 | R3.7 (SHOULD) | SHOULD | Target network restricted where possible | | |
-| R3.8 | MUST | Text from the AI and managed systems rendered and delivered as inert data | | |
+| R3.8 | MUST | Text the platform did not write rendered and delivered as inert data | | |
 | R4.1 | MUST | Every change the AI initiates is a proposal that waits for approval, except within automations and classes | | |
-| R4.2 | MUST | Proposals complete, including timing, retries and safe steps; artefacts pinned or captured; plans verified | | |
-| R4.3 | MUST | Approval bound to a SHA-256 or stronger digest, rendered from it, single use, retries bounded, verified at execution | | |
-| R4.4 | MUST | Targets bound by identifier or platform-computed fingerprint and verified at execution with stated preconditions | | |
+| R4.2 | MUST | Proposals complete, including timing, retries and safe steps; every artefact pinned by digest; plans verified, and computing them governed | | |
+| R4.3 | MUST | Approval bound to a SHA-256 or stronger digest of an unambiguous serialisation, rendered from it, single use, retries re-verified | | |
+| R4.4 | MUST | Targets and the state the change depends on bound and verified at execution | | |
 | R4.4 (SHOULD) | SHOULD | Destructive changes required to state preconditions | | |
-| R4.5 | MUST | Approvals expire within 30 days or a shorter set period | | |
-| R4.6 | MUST | Only a person with permission to make the change authorises it; viewers and approvers have access to the session's sources | | |
-| R4.7 | MUST | User verification bound to each proposal's digest and a fresh value; authenticators restrictable; enrolment protected | | |
+| R4.5 | MUST | Approvals and their retries expire within 30 days or a shorter set period | | |
+| R4.6 | MUST | Only a person who holds permission to make the change authorises it; viewers and approvers have access to the session's sources, or were deliberately shared with | | |
+| R4.7 | MUST | User verification bound to each proposal's digest and a fresh value; authenticators restrictable; enrolment protected; disabled with the account | | |
 | R4.7 (SHOULD) | SHOULD | Attestation checked; separate-device confirmation that shows the proposal | | |
 | R4.8 | MUST | Sets shown in full and individually rejectable; sensitive and high-impact changes approved alone | | |
 | R4.8 (SHOULD) | SHOULD | Size of sets limited | | |
 | R4.9 | MUST | Approval view shows everything R4.9 lists, from the digested bytes and the platform's records, with AI text marked | | |
-| R4.10 | MAY / MUST | Automations started only by fixed, AI-independent triggers, rate-limited, with people-set attributes, expiring within a year | | |
-| R4.10 (SHOULD) | SHOULD | Alert when an automation stops | | |
-| R4.11 | MUST NOT | No change without per-instance approval outside a bounded, enumerated, deterministic class that expires within a year | | |
-| R4.12 | MUST | Instruction stores documented; outside writes need approval; AI memory marked and kept out | | |
+| R4.10 | MAY / MUST | Automations started only by fixed schedules or named event sources the AI cannot reach, rate-limited, with controlled attributes, expiring within a year, run under a person who holds permission | | |
+| R4.10 (SHOULD) | SHOULD | Expiry and stop alerts; transfer of automations | | |
+| R4.11 | MUST NOT | No change without per-instance approval outside a bounded, enumerated, deterministic class with controlled attributes that expires within a year | | |
+| R4.11 (SHOULD) | SHOULD | Expiry alerts for classes | | |
+| R4.12 | MUST | Instruction stores documented; outside writes need approval; AI memory marked, kept out and never evidence | | |
 | R4.13 | MAY / SHOULD | Separate or multiple approvers for kinds of change the organisation defines | | |
-| R4.14 | MUST | AI-initiated configuration changes are approved proposals; direct ones need user verification | | |
+| R4.14 | MUST | The AI changes configuration only by approved proposal; direct and repository changes confirmed by an eligible person; only people may disable, and it is recorded | | |
 | R4.15 | SHOULD | Freeze periods | | |
-| R5.1 | MUST | A complete decision record for every proposal and every automated or class change | | |
+| R5.1 | MUST | A complete decision record for every proposal, automated or class change, configuration change and disabling | | |
 | R5.2 | MUST | A record of every request made or refused, with parameters | | |
 | R5.2 (SHOULD) | SHOULD | Content returned to the AI kept for a documented period | | |
-| R5.3 | MUST | Every instruction, output, instruction-store version and model version recorded | | |
+| R5.3 | MUST | Every instruction, output, instruction-store version and content, and model version recorded | | |
 | R5.4 | MUST NOT | The AI cannot modify or delete records | | |
-| R5.5 | MUST | Text kept inert in records, interfaces and exports, with AI text marked | | |
-| R5.6 | MUST | Records kept at least one year, never removed by volume; legal exceptions recorded | | |
-| R5.7 | MUST | Access to records limited as R1.10 requires | | |
+| R5.5 | MUST | Text the platform did not write kept inert in records, interfaces and exports, with AI text marked | | |
+| R5.6 | MUST | Records kept at least one year, never removed by volume; legal and collective-agreement exceptions recorded; holds; export or deletion at end of service | | |
+| R5.7 | MUST | Access to records limited as R1.10 requires; a person's sessions private by default | | |
 | R5.8 | SHOULD | Records tamper-evident | | |
-| R5.9 | MUST | Records exportable to the organisation's logging or SIEM | | |
+| R5.9 | MUST | Continuous, machine-readable export to the organisation's logging or SIEM within a documented delay | | |
 
 ### Documented values
 
 | Requirement | Value |
 | --- | --- |
 | R0.3 | Every setting that takes the system out of conformance |
-| R1.1 | The method used to determine permissions for each kind of managed system, and the maximum delay between a revocation at its source and its enforcement |
+| R1.1 | The method used to determine permissions and just-in-time eligibility for each kind of managed system, and the maximum delay between a revocation at its source and its enforcement |
 | R1.5 | The tool servers the organisation has designated as trusted, in the assessed configuration |
-| R2.6 | The encodings and data formats in which credential values are replaced |
+| R1.12 | The operations whose processes the platform cannot terminate on targets |
+| R2.6 | The encodings in which platform-held credentials are replaced, and the files and formats parsed for each kind of managed system |
 | R3.3 | The allow-list entries whose readers the platform cannot check |
-| R3.6 | Every third party, with account, region, retention, use for training, and whether the account is shared |
+| R3.6 | Every third party, with account, region, retention, use for training, fine-tuning or evaluation, onward disclosure, and whether the account is shared |
+| R4.3 | The canonical serialisation used for digests |
 | R4.4 | The fingerprint rules for each operation whose targets lack stable identifiers |
-| R4.7 | The out-of-band process for registering authenticators, if one is used |
+| R4.7 | The process for registering authenticators other than with an existing one, if one is used |
+| R4.11 | The method by which the platform establishes who can set selecting attributes held on managed systems |
 | R4.12 | Every instruction store |
 | R5.2 | The period for which content returned to the AI is kept, if it is |
-| R5.6 | Any shorter retention period set to meet a legal obligation, and the volume of records the system has been tested to hold |
+| R5.6 | The volume of records the system has been tested to hold |
+| R5.9 | The maximum delay of the continuous export |
+| Holds permission (section 3) | The just-in-time processes the organisation designates |
 
-The statement SHOULD also give the values the organisation has set in the assessed configuration for R1.13, R4.5, R4.10, R4.11 and R5.6.
+The statement SHOULD also give the values the organisation has set in the assessed configuration for R1.9, R1.13, R4.5, R4.8, the R4.9 period, R4.10, R4.11 and R5.6, and its high-impact designations.
 
 ### Residual risk
 
@@ -182,7 +193,7 @@ For each residual risk in section 6 of the specification:
 | 8. Software in the person's own session | | |
 | 9. Code that runs on a managed system | | |
 | 10. Credentials the platform cannot recognise | | |
-| 11. What has already been read | | |
+| 11. What has already been read, and changing audiences | | |
 | 12. Load, cost, volume and availability | | |
 | 13. Compromise outside the AI | | |
 
