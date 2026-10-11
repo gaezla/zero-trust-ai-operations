@@ -23,7 +23,7 @@ This repository is an open, vendor-neutral specification for it: five rules, the
 
 1. **Act only as the person who asked.** Every request is authorised for the people involved, by the platform, when it happens. The AI has no authority of its own, and what it reads, and anything derived from it, stays with the people entitled to it.
 2. **Never give the AI a credential.** The platform attaches credentials to each request outside the model, and removes from what the AI reads the credentials it holds and those it can recognise, in the forms it documents.
-3. **Give the AI no network of its own.** The AI reaches your systems only through the platform. Its code has no network, and nothing in its answers is fetched or run automatically. The ways out for what it reads are the third parties you are told about, destinations whose readers may see it, and changes people approve; the specification lists the side channels that remain.
+3. **Give the AI no network of its own.** The AI reaches your systems only through the platform. Its code has no network, nothing in its answers runs as code, and nothing in them is fetched automatically except by the platform itself or from allow-listed destinations. The ways out for what it reads are the third parties you are told about, destinations whose readers may see it, and changes people approve; the specification lists the side channels that remain.
 4. **Let only a person approve a change, exactly as it will run.** A person with the authority to make the change approves it, with user verification bound to that proposal. What runs is the content they saw, against the same targets, once, before the approval expires. Unattended change exists only within automations and classes that people define and bound in advance.
 5. **Record every decision where the AI cannot change it.** What the AI was asked, what it read, what it proposed, who approved it, how, and what ran, kept out of the AI's reach.
 
@@ -37,7 +37,7 @@ Any of that content can carry instructions, and the model may follow them. This 
 
 So the honest design assumption is that the AI can be steered at any moment of any session. What a steered AI can then do depends entirely on the system around the model. NIST anticipated the risk. In 2020, writing about software agents used to administer a zero trust architecture, section 5.7 of NIST SP 800-207 warned that "an attacker will be able to induce or coerce an NPE [non-person entity] to perform some task that the attacker is not privileged to perform", and called the authentication of such agents "an open issue".
 
-Zero-trust AI operations addresses that concern for the AI that operates infrastructure. The five rules are designed so that a steered AI cannot act beyond the authority of the people involved, cannot obtain a credential the platform holds or can recognise, cannot send what it read beyond the channels people control, cannot change a system except through a person's approval of the exact change or within limits people set in advance, and cannot erase the record. [Section 6](SPECIFICATION.md#6-residual-risk) of the specification states what remains, and every conformance statement must assess it.
+Zero-trust AI operations addresses that concern for the AI that operates infrastructure. The five rules are designed so that a steered AI cannot act beyond the authority of the people involved, cannot obtain a credential the platform holds and can recognise in the forms it documents, cannot send what it read beyond the channels people control, cannot change a system except through a person's approval of the exact change or within limits people set in advance, and cannot erase the record. [Section 6](SPECIFICATION.md#6-residual-risk) of the specification states what remains, and every conformance statement must assess it.
 
 ## How a change flows
 
@@ -97,7 +97,7 @@ That list names the risks of agents in general. This specification turns the one
 
 ## Status and versioning
 
-This is version 1.0.0-draft.1, a draft for public review. Requirements and identifiers may still change until version 1.0.0. From 1.0.0 the specification follows semantic versioning, as [CONTRIBUTING.md](CONTRIBUTING.md#versioning) describes: a **major** release adds, removes or changes a MUST, or a verification step that a conforming system could fail; a **minor** release adds or removes SHOULD or MAY requirements, informative text or checklist questions; a **patch** release changes wording without changing any requirement. Requirement identifiers never change meaning within a major version. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+This is version 1.0.0-draft.1, a draft for public review. Requirements and identifiers may still change until version 1.0.0. From 1.0.0 the specification follows semantic versioning, with the rules in [CONTRIBUTING.md](CONTRIBUTING.md#versioning). Requirement identifiers never change meaning within a major version. Changes are listed in [CHANGELOG.md](CHANGELOG.md). This README is informative; the specification decides.
 
 ## Governance
 
@@ -108,6 +108,8 @@ The specification is maintained by GAEZLA, which builds AI operations software a
 - the text promotes no product, including GAEZLA's;
 - GAEZLA's own products get no exception from it;
 - anyone may fork and republish it under CC BY 4.0.
+
+**Patents.** CC BY 4.0 does not license patent rights, and this draft carries no patent commitment yet. The patent policy and decision process for version 1.0.0 are open questions for public review ([section 10](SPECIFICATION.md#10-open-questions-for-public-review)).
 
 ## How to cite
 

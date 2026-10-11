@@ -10,8 +10,10 @@ This document is informative. Quotations follow the conventions in section 2 of 
 - **Out of scope**: the item concerns something section 8 of the specification excludes.
 - **Not relied on**: the item is compatible, but no requirement depends on it (R0.1).
 - **Departure**: the specification deliberately takes another position.
+- **Residual risk**: the specification does not prevent what the item describes, and section 6 says so.
+- **Not covered**: the item is in scope, but no requirement addresses it.
 
-An item without a label is covered by the requirements named.
+An item without a label is covered by the requirements named, or is broken down in the table that follows it.
 
 ## Contents
 
@@ -66,9 +68,9 @@ The 2026 edition renumbered the list; Excessive Agency, LLM06 in the 2025 editio
 | LLM03:2026 Excessive Agency | Rules 1 and 4. Strategy by strategy below. |
 | LLM04:2026 Supply Chain | **Partly.** Covered: R4.2 pins each artefact a change installs or executes by digest, and R4.12 stops tool servers from changing tool definitions without a person's approval. Not covered: the model supply chain, which is out of scope. |
 | LLM05:2026 Data and Model Poisoning | **Partly.** Covered: poisoning of the AI's persistent memory is limited by R4.12, which keeps memory out of instruction stores and never shows it as evidence, and by R1.10. Not covered: training and model poisoning, which are out of scope. |
-| LLM06:2026 Unbounded Consumption | **Out of scope** for model usage. R1.9 recommends limiting the load the AI places on managed systems. |
-| LLM07:2026 Misinformation | Residual risk 1. The entry warns that "The core risk is that the incorrect output is trusted and acted upon"; R4.9 shows the approver source records, not the AI's account, but a source record is not proof. |
-| LLM08:2026 Hidden Context Exposure | R0.1, R2.1 and R2.5. The entry advises that "any contents of the context should not be considered a secret"; no credential the platform uses is placed there, and credentials in data the AI reads are replaced as R2.6 requires, with residual risk 10 for those it cannot recognise. |
+| LLM06:2026 Unbounded Consumption | **Not covered** for model usage. R1.9 recommends limiting the load the AI places on managed systems. |
+| LLM07:2026 Misinformation | **Residual risk** 1. The entry warns that "The core risk is that the incorrect output is trusted and acted upon"; R4.9 shows the approver source records, not the AI's account, but a source record is not proof. |
+| LLM08:2026 Hidden Context Exposure | **Partly.** Covered: R0.1, R2.1 and R2.5. The entry advises that "any contents of the context should not be considered a secret"; no credential the platform uses is placed there, and credentials in data the AI reads are replaced as R2.6 requires. Not covered: credentials it cannot recognise (residual risk 10). |
 | LLM09:2026 Vector and Embedding Weaknesses | **Partly.** Covered: R1.10 and R1.11 state the outcome its first example, "Cross-Tenant Leakage via Shared Similarity Search", threatens: information is available only to people with access to it, through any store. Not covered: the inference from result counts, scores and timing that the example describes. |
 | LLM10:2026 Improper Output Handling | **Partly.** Covered: R3.4 and R3.8 for interfaces and delivery, R4.9 and R5.5 for approval views, records and exports; scripts that would change a managed system are proposals (R4.1), and code the AI runs in its own environment has no network (R3.2). Not covered: the entry's other strategies, such as validating generated code before it is proposed. Strategy 9 below. |
 
@@ -163,7 +165,7 @@ For public retrieval, R3.5's first design follows Meta's example of "Limiting we
 
 Simon Willison's lethal trifecta (16 June 2025) is "Access to your private data", "Exposure to untrusted content" and "The ability to externally communicate in a way that could be used to steal your data". OWASP LLM01:2026 cites it as restating "the same structural diagnosis as a pre-deployment check", adding that "removing any one leg removes them".
 
-An AI operations system cannot remove the first two legs and still do its job, so Rule 3 limits the third: the AI's code has no network, including name resolution (R3.2); every other channel is removed, allow-listed or approved (R3.3); nothing in the AI's output is fetched automatically, except the platform's own addresses and allow-listed destinations, or run as code (R3.4, R3.8); and what it has read cannot determine a public retrieval beyond a query to a disclosed service and a choice among permitted results (R3.5). Willison notes that a tool "providing a link for a user to click" can also carry data out. Section 6 lists that path, the queries and the other channels that remain, as residual risks 2, 3 and 5 to 10.
+An AI operations system cannot remove the first two legs and still do its job, so Rule 3 limits the third: the AI's code has no network, including name resolution (R3.2); every other channel is removed, allow-listed or approved (R3.3); nothing in the AI's output is fetched automatically, except the platform's own addresses and allow-listed destinations, or run as code (R3.4, R3.8); and what it has read cannot determine a public retrieval beyond a query to a disclosed service and a choice among permitted results (R3.5). Willison notes that a tool "providing a link for a user to click" can also carry data out. Section 6 lists that path, the queries and the other channels that remain, as residual risks 2, 3, 5 to 9 and 11.
 
 ## Agentic Trust Framework
 

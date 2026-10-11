@@ -39,8 +39,8 @@ Versions marked as drafts, such as 1.0.0-draft.1, are open for public review. Du
 
 From version 1.0.0 the specification uses [semantic versioning](https://semver.org/):
 
-- **Major:** a MUST requirement is added, removed or changes meaning, a rule is added or removed, or a verification step is added or changed in a way that a conforming system could fail.
-- **Minor:** a SHOULD or MAY requirement is added or removed, informative text changes in substance, or a checklist question is added or removed.
+- **Major:** a MUST requirement is added, removed or changes meaning, a rule is added or removed, or a verification step or a part of CONFORMANCE.md is added or changed in a way that a conforming system or statement could fail.
+- **Minor:** a SHOULD or MAY requirement is added, removed or changes meaning, informative text changes in substance, or a checklist question is added or removed.
 - **Patch:** wording that changes no requirement, typos and links.
 
 Requirement identifiers such as R4.2 never change meaning within a major version. A withdrawn requirement keeps its identifier, marked as withdrawn.

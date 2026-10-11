@@ -79,6 +79,7 @@ Copy the table into your statement and fill in every row. Status is one of:
 - **Met**, with evidence;
 - **Not met**;
 - **Not used**, for MAY provisions the system does not use;
+- **Organisation**, in a vendor's statement, for a requirement that the organisation completes for its deployment, with how the product supports it;
 - **Not applicable**, only where the condition the requirement depends on cannot arise in the named configuration, with evidence that the capability is absent. For example, R3.5 is not applicable to a system that offers no public retrieval.
 
 Requirements with both a MUST and a SHOULD part have a row for each.
@@ -107,20 +108,20 @@ Requirements with both a MUST and a SHOULD part have a row for each.
 | R2.1 | MUST NOT / MUST | No credential the platform uses placed where the AI can read; echoed credentials replaced | | |
 | R2.2 | MUST | The platform attaches credentials to the requests it makes, after authorising each | | |
 | R2.3 | MUST | Credentials referenced by name, released after approval to the executor only; only success or failure reaches the AI | | |
-| R2.3 (SHOULD) | SHOULD | The platform makes a change's connections itself; released credentials single-use, or rotated afterwards | | |
+| R2.3 (SHOULD) | SHOULD | The platform makes a change's connections itself; released credentials per-execution, or rotated afterwards | | |
 | R2.4 | MUST | Session identity bound, accepted only by the platform, never forwarded, ends with the session, unusable if copied | | |
 | R2.4 (SHOULD) | SHOULD | Session identity sender-constrained even when unreadable | | |
 | R2.5 | MUST NOT | The AI's runtime credentials not readable by its tools or code | | |
-| R2.6 | MUST | Credential values replaced: platform-held values in listed encodings, marked fields, key material, headers, tokens, hashes, listed formats per kind of system, created credentials | | |
+| R2.6 | MUST | Credential values replaced: values the platform holds, attaches or releases in listed encodings, marked fields, key material, headers, tokens, hashes, listed formats per kind of system, created credentials | | |
 | R2.6 (SHOULD) | SHOULD | Credential values detected and replaced in other data | | |
 | R3.1 | MUST | The platform is the only route to managed systems; no access to the organisation's networks | | |
 | R3.2 | MUST | The AI's code and browser sessions have no network, including DNS, beyond the platform | | |
-| R3.3 | MUST | Every external channel removed, allow-listed with stated audience and checked, or approved per message | | |
+| R3.3 | MUST | Every external channel removed, allow-listed with stated audience and checked, or approved per message; destinations that act on content get only fixed content | | |
 | R3.4 | MUST | No automatic fetch of addresses in the AI's output; links shown safely; delivery defanged; notifications carry no session content | | |
 | R3.5 | MUST | Information from managed systems cannot determine public retrieval beyond a query to a disclosed, non-sharing service and a choice among permitted results; no AI-chosen host names | | |
 | R3.6 | MUST | Every third party documented, including onward disclosure; accounts and endpoints chosen by the platform | | |
 | R3.6 (SHOULD) | SHOULD | Organisation chooses third parties and can use its own accounts | | |
-| R3.7 | MUST | Platform-run change code limited to targets and declared destinations; unchecked destinations marked; only single-use credentials to code on targets | | |
+| R3.7 | MUST | Platform-run change code limited to targets and declared destinations; unchecked destinations marked; only per-execution credentials to code on targets | | |
 | R3.7 (SHOULD) | SHOULD | Target network restricted where possible | | |
 | R3.8 | MUST | Text the platform did not write rendered and delivered as inert data | | |
 | R4.1 | MUST | Every change the AI initiates is a proposal that waits for approval, except within automations and classes | | |
@@ -162,13 +163,16 @@ Requirements with both a MUST and a SHOULD part have a row for each.
 | R1.1 | The method used to determine permissions and just-in-time eligibility for each kind of managed system, and the maximum delay between a revocation at its source and its enforcement |
 | R1.5 | The tool servers the organisation has designated as trusted, in the assessed configuration |
 | R1.12 | The operations whose processes the platform cannot terminate on targets |
-| R2.6 | The encodings in which platform-held credentials are replaced, and the files and formats parsed for each kind of managed system |
+| R1.6 | The operations treated as creating or resetting people's credentials or factors, or weakening authentication |
+| R2.6 | The encodings in which credentials the platform holds, attaches or releases are replaced, the forms of key material recognised, and the files and formats parsed for each kind of managed system |
 | R3.3 | The allow-list entries whose readers the platform cannot check |
 | R3.6 | Every third party, with account, region, retention, use for training, fine-tuning or evaluation, onward disclosure, and whether the account is shared |
 | R4.3 | The canonical serialisation used for digests |
 | R4.4 | The fingerprint rules for each operation whose targets lack stable identifiers |
 | R4.7 | The process for registering authenticators other than with an existing one, if one is used |
-| R4.11 | The method by which the platform establishes who can set selecting attributes held on managed systems |
+| R4.4 | The state-binding rules for each operation |
+| R4.10 | The rules that match trigger events to requests the platform made for the AI |
+| R4.11 | The record of authorship from which the platform establishes who set selecting attributes held on managed systems |
 | R4.12 | Every instruction store |
 | R5.2 | The period for which content returned to the AI is kept, if it is |
 | R5.6 | The volume of records the system has been tested to hold |
@@ -196,6 +200,8 @@ For each residual risk in section 6 of the specification:
 | 11. What has already been read, and changing audiences | | |
 | 12. Load, cost, volume and availability | | |
 | 13. Compromise outside the AI | | |
+| 14. Systems that act on what they receive or observe | | |
+| 15. Instructions carried to other AI software | | |
 
 ## Buying instead of building
 

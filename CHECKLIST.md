@@ -10,7 +10,7 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **1. Whose permissions does the AI use on each system, and what enforces them?** `R1.1` `R1.2` `R1.3`
 
-- **Good answer:** The requesting person's, checked by the product on every request, for that session only, down to the namespace, mailbox or index, and never more than that person's own account on the system allows. For systems with neither per-person accounts nor a way to ask what a person may do, the vendor says that granularity is set by its own documented mapping. A revoked permission takes effect within an hour at most.
+- **Good answer:** The requesting person's, checked by the product on every request, for that session only, down to the namespace, mailbox or index, and never more than that person's own account on the system allows. For systems with neither per-person accounts nor a way to ask what a person may do, the vendor says that granularity is set by your organisation's mapping in the product. A revoked permission takes effect within an hour at most.
 - **Red flag:** A broad service account with no per-person check, or "the agent knows what it is allowed to do".
 - **Ask them to show:** As a user without access to a system, have the AI read it. The product refuses.
 
@@ -50,7 +50,7 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **8. How does an approved job get a credential it needs?** `R2.3`
 
-- **Good answer:** Preferably the product makes the connection itself, so the job never holds a credential. Otherwise the proposal names the credential; the value is released only after approval, only to that job, preferably as a credential created for it and expiring when it ends; a script that runs on your host receives only such a single-use credential; and the AI learns only whether it succeeded unless a person releases the output.
+- **Good answer:** Preferably the product makes the connection itself, so the job never holds a credential. Otherwise the proposal names the credential; the value is released only after approval, only to that job, preferably as a credential created for it and expiring when it ends; a script that runs on your host receives only such a per-execution credential; and the AI learns only whether it succeeded unless a person releases the output.
 - **Red flag:** Credentials passed in plain text through the conversation.
 
 **9. What identity does an AI session use, and what happens if it is copied?** `R2.4`
@@ -80,7 +80,7 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **13. Which channels can carry anything out, and can anything in the AI's answers load or run by itself?** `R3.3` `R3.4` `R3.8`
 
-- **Good answer:** A short, named list of channels. Each is limited to destinations you allow-list, with a stated audience that may see what the AI read, or each message is approved. No interface, chat or mail integration loads images or link previews from the AI's output, nothing in an answer runs as code, and links to other destinations cannot be clicked directly.
+- **Good answer:** A short, named list of channels. Each is limited to destinations you allow-list, with a stated audience that may see what the AI read, or each message is approved. No interface, chat or mail integration loads images or link previews from the AI's output, except the product's own and allow-listed addresses, nothing in an answer runs as code, and links to other destinations cannot be clicked directly. Destinations that act on what they receive, such as a chat bot that runs commands, get only fixed content.
 - **Red flag:** "It can post to any channel it has access to", or AI answers that render remote images.
 - **Ask them to show:** Make the AI's answer include an image from a server you control, and open it everywhere the product shows answers. Your server receives nothing.
 
@@ -99,7 +99,7 @@ The questions apply [the specification](SPECIFICATION.md#5-requirements); the ta
 
 **16. Is what runs exactly what was approved, including everything it downloads, and only once?** `R4.2` `R4.3` `R3.7`
 
-- **Good answer:** Yes. Approval binds to a digest of the exact content, including its timing and a bounded retry policy; every package and image is pinned by digest, never by version or tag alone; plans are checked again before applying, and computing them is itself controlled; the approval covers one run; and code the product runs can reach only the destinations it declared, with any destination not checked against what the session read marked as such. Parts that run on your hosts are flagged as having the host's network.
+- **Good answer:** Yes. Approval binds to a digest of the exact content, including its timing and a bounded retry policy; every package and image the product fetches is pinned by digest, never by version or tag alone, and anything a host fetches that cannot be pinned is flagged; plans are checked again before applying, and computing them is itself controlled; the approval covers one run; and code the product runs can reach only the destinations it declared, with any destination not checked against what the session read marked as such. Parts that run on your hosts are flagged as having the host's network.
 - **Red flag:** The approval covers a description, and the details are filled in afterwards, or a script pulls `latest` at run time.
 - **Ask them to show:** Alter a proposal after it has been approved. Execution refuses.
 
