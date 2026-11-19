@@ -4,7 +4,7 @@ All notable changes to this specification are recorded here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the specification uses [semantic versioning](https://semver.org/) as described in [CONTRIBUTING.md](CONTRIBUTING.md#versioning).
 
-## [1.0.0-draft.1] - 2026-10-11
+## [1.0.0-draft.1] - 2026-11-19
 
 First draft for public review.
 

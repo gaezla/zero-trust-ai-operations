@@ -60,7 +60,7 @@ If someone reports a reproducible failure of a requirement the statement marks a
 
 Allowed, when the system conforms and the statement is published:
 
-> Conforms to zero-trust AI operations 1.0.0-draft.1 (self-assessed, 2026-10-11, configuration "standard"). Statement: <https://example.com/your-conformance-statement>
+> Conforms to zero-trust AI operations 1.0.0-draft.1 (self-assessed, 2026-11-19, configuration "standard"). Statement: <https://example.com/your-conformance-statement>
 
 A claim MUST NOT use "certified", "approved", "endorsed", or anything implying that the maintainers of this specification have reviewed or vouched for the system.
 
